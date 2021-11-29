@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtCore import Qt
+import time
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget
 from PyQt5.QtWidgets import QLayout, QGridLayout, QSizePolicy
 from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
@@ -14,31 +15,23 @@ class Gugudan(QWidget) :
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        #초기 점수
-        self.priScore = 0
-
-        #초기 남은 시간 설정
-        self.time = 60
-
-        #피연산자
-        self.operand1 = 0
-        self.operand2 = 0
+        
 
         #현재 점수 layout
-        self.currentScore = QLabel(f"점수 : {self.priScore}")
+        self.currentScore = QLabel(f"점수 : 0")
         self.currentScore.setFont(QFont("명조", 15))
         # self.currentScore.setStyleSheet("Color : rgb(255,255,255) ")
         # self.currentScore.setReadOnly(True)
 
         #남은 시간 layout
-        self.leftTime = QLabel(f"남은 시간 : {self.time}")
+        self.leftTime = QLabel(f"남은 시간 : 60")
         self.leftTime.setFont(QFont("명조", 15))
         # self.leftTime.setStyleSheet("Color : green")
         # self.leftTime.setReadOnly(True)
 
 
         #구구단 문제 layout
-        self.gugudanQuiz = QLineEdit(f"{self.operand1} X {self.operand2}")
+        self.gugudanQuiz = QLineEdit(f"숫자 X num")
         self.gugudanQuiz.setReadOnly(True)
         self.gugudanQuiz.setAlignment(Qt.AlignCenter)
         self.gugudanQuiz.setFont(QFont("명조", 20))
@@ -51,7 +44,7 @@ class Gugudan(QWidget) :
         self.resultText = QLabel("정답 : ")
         self.resultText.setFont(QFont("명조", 20))
         #정답 입력창 layout
-        self.enterResult = QLineEdit()
+        self.enterResult = QLineEdit("1")
         self.enterResult.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.enterResult.setMaxLength(2)
         self.enterResult.setFont(QFont("명조", 20))
@@ -98,36 +91,72 @@ class Gugudan(QWidget) :
         mainLayout.addLayout(scoreBoardLayout, 0, 1)
         
         self.setLayout(mainLayout)
-
         self.setWindowTitle('업그레이드 구구단')
 
+        self.timer = QTimer(self)
+        self.timer.start(100)
+        self.timer.timeout.connect(self.updateTime)
 
-    
+
+    #게임 시작
     def startGame(self):
+
+        #초기 점수
+        self.priScore = 0
+
+        #초기 남은 시간 설정
+        self.time = 60.0
+
+        #피연산자
+        self.operand1 = 0
+        self.operand2 = 0
+
         self.score = Score()
         self.gugudan = RandomNumber()
-        
-    
+
+    #점수 및 
+    def updateScore(self) :
+        self.currentScore.setText(f"점수 : {self.score}")
+        pass
+
+    #남은 시간 갱신
+    def updateTime(self) :
+        self.time = round(self.time - 0.1, 1)
+        if self.time == 0 :
+            self.gameOver() 
+        self.leftTime.setText(f"남은 시간 : {self.time}")
+        pass
+
+    #버튼 입력 (enter, spacebar)
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Enter:
             self.submit()
-        elif e.key() == Qt.Key_Space:
-            self.pause()
+        # elif e.key() == Qt.Key_Space:
+        #     self.pause()
         # elif e.key() == Qt.Key_N:
         #     self.showNormal()
 
+    #정답 제출
     def submit(self) :
+        # self.close()
         ipt = self.enterResult.text()
 
         self.enterResult.clear()
+        self.enterResult.setText("")
 
         if self.gugudan.checkAnswer(ipt) :
             self.gugudan = RandomNumber()
             self.score.correct()
-            self.currentScore.setText(f"점수 : {self.score}")
+            self.gugudan.updateScore()
+            
         else :
             pass
-
+    
+    #잠시 대기
+    def pause(self) :
+        self.close()
+        # self.enterResult.setText("")
+        # pass
             
             
 

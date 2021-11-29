@@ -14,14 +14,16 @@ class RandomNumber :
         self.operand1Type = random.randint(0,4)
         self.operand2Type = random.randint(0,4)
 
+        self.answerNum = self.operand1 * self.operand2
+
     def operands(self) :
         return [numberDic[self.operand1][self.operand1Type], numberDic[self.operand2][self.operand2Type]]
 
-    def answer(self) :
-        self.answerNum = self.operand1 * self.operand2
+    # def answer(self) :
+    #     self.answerNum = self.operand1 * self.operand2
 
     def checkAnswer(self, num) : 
-        return self.ansewrNum == num
+        return self.answerNum == num
     
 # a = RandomNumber()
 
