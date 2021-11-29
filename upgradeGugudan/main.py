@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QLayout, QGridLayout, QSizePolicy
 from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
 from PyQt5.QtGui import QFont
 
-from numbers import RandomNumber
+from randomNumber import RandomNumber
+from score import Score
 
 
 class Gugudan(QWidget) :
@@ -14,7 +15,7 @@ class Gugudan(QWidget) :
         super().__init__(parent)
 
         #초기 점수
-        self.score = 0
+        self.priScore = 0
 
         #초기 남은 시간 설정
         self.time = 60
@@ -24,7 +25,7 @@ class Gugudan(QWidget) :
         self.operand2 = 0
 
         #현재 점수 layout
-        self.currentScore = QLabel(f"점수 : {self.score}")
+        self.currentScore = QLabel(f"점수 : {self.priScore}")
         self.currentScore.setFont(QFont("명조", 15))
         # self.currentScore.setStyleSheet("Color : rgb(255,255,255) ")
         # self.currentScore.setReadOnly(True)
@@ -103,7 +104,9 @@ class Gugudan(QWidget) :
 
     
     def startGame(self):
+        self.score = Score()
         self.gugudan = RandomNumber()
+        
     
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Enter:
@@ -114,10 +117,19 @@ class Gugudan(QWidget) :
         #     self.showNormal()
 
     def submit(self) :
+        ipt = self.enterResult.text()
+
         self.enterResult.clear()
 
+        if self.gugudan.checkAnswer(ipt) :
+            self.gugudan = RandomNumber()
+            self.score.correct()
+            self.currentScore.setText(f"점수 : {self.score}")
+        else :
+            pass
 
-
+            
+            
 
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
