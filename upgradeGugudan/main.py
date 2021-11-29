@@ -85,6 +85,7 @@ class Gugudan(QWidget) :
 
         # scoreBoardLayout = QGridLayout()
 
+        #메인보드
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
         mainLayout.addLayout(gugudanLayout, 0, 0)
@@ -93,26 +94,34 @@ class Gugudan(QWidget) :
         self.setLayout(mainLayout)
         self.setWindowTitle('업그레이드 구구단')
 
+
+        #타이머
         self.timer = QTimer(self)
         self.timer.start(100)
         self.timer.timeout.connect(self.updateTime)
 
+        # self.startGame()
+
+        #게임 over
+        self.onGame = False
 
     #게임 시작
     def startGame(self):
+        self.onGame = True
 
         #초기 점수
         self.priScore = 0
 
         #초기 남은 시간 설정
-        self.time = 60.0
+        self.time = 60.1
 
         #피연산자
         self.operand1 = 0
         self.operand2 = 0
 
-        self.score = Score()
+        self.score = Score(0)
         self.gugudan = RandomNumber()
+        self.gugudanQuiz.setText(f"{self.gugudan.operands()[0]} X {self.gugudan.operands()[1]}")
 
     #점수 및 
     def updateScore(self) :
@@ -121,15 +130,16 @@ class Gugudan(QWidget) :
 
     #남은 시간 갱신
     def updateTime(self) :
-        self.time = round(self.time - 0.1, 1)
-        if self.time == 0 :
-            self.gameOver() 
-        self.leftTime.setText(f"남은 시간 : {self.time}")
-        pass
+        if self.onGame :
+            self.time = round(self.time - 0.1, 1)
+            if self.time == 0 :
+                self.onGame = False
+            self.leftTime.setText(f"남은 시간 : {self.time}")
+            pass
 
     #버튼 입력 (enter, spacebar)
     def keyPressEvent(self, e):
-        if e.key() == Qt.Key_Enter:
+        if e.key() == Qt.Key_Return:
             self.submit()
         # elif e.key() == Qt.Key_Space:
         #     self.pause()
@@ -157,6 +167,9 @@ class Gugudan(QWidget) :
         self.close()
         # self.enterResult.setText("")
         # pass
+
+    def gameOver(self) :
+        pass
             
             
 
