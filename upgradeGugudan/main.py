@@ -94,7 +94,6 @@ class Gugudan(QWidget) :
         self.setLayout(mainLayout)
         self.setWindowTitle('업그레이드 구구단')
 
-
         #타이머
         self.timer = QTimer(self)
         self.timer.start(100)
@@ -102,7 +101,7 @@ class Gugudan(QWidget) :
 
         # self.startGame()
 
-        #게임 over
+        #게임 상태
         self.onGame = False
 
     #게임 시작
@@ -115,15 +114,21 @@ class Gugudan(QWidget) :
         #초기 남은 시간 설정
         self.time = 60.1
 
-        #피연산자
-        self.operand1 = 0
-        self.operand2 = 0
+        # #피연산자
+        # self.operand1 = 0
+        # self.operand2 = 0
 
         self.score = Score(0)
+        self.newQuiz()
+
+        
+
+    #새로운 구구단 생성
+    def newQuiz(self) :
         self.gugudan = RandomNumber()
         self.gugudanQuiz.setText(f"{self.gugudan.operands()[0]} X {self.gugudan.operands()[1]}")
 
-    #점수 및 
+    #점수 갱신
     def updateScore(self) :
         self.currentScore.setText(f"점수 : {self.score}")
         
@@ -151,15 +156,13 @@ class Gugudan(QWidget) :
     def submit(self) :
         # self.close()
         self.ipt = self.enterResult.text()
-
         self.enterResult.clear()
         self.enterResult.setText("")
 
-        if self.gugudan.checkAnswer(self.ipt):
-            self.gugudan = RandomNumber()
+        if self.gugudan.checkAnswer(int(self.ipt)):
             self.score.correct()
-            self.gugudan.updateScore()
-            
+            self.updateScore()
+            self.newQuiz()
         else :
             pass
     
