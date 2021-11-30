@@ -126,7 +126,7 @@ class Gugudan(QWidget) :
     #점수 및 
     def updateScore(self) :
         self.currentScore.setText(f"점수 : {self.score}")
-        pass
+        
 
     #남은 시간 갱신
     def updateTime(self) :
@@ -134,8 +134,9 @@ class Gugudan(QWidget) :
             self.time = round(self.time - 0.1, 1)
             if self.time == 0 :
                 self.onGame = False
+                self.gameOver()
             self.leftTime.setText(f"남은 시간 : {self.time}")
-            pass
+            
 
     #버튼 입력 (enter, spacebar)
     def keyPressEvent(self, e):
@@ -149,12 +150,12 @@ class Gugudan(QWidget) :
     #정답 제출
     def submit(self) :
         # self.close()
-        ipt = self.enterResult.text()
+        self.ipt = self.enterResult.text()
 
         self.enterResult.clear()
         self.enterResult.setText("")
 
-        if self.gugudan.checkAnswer(ipt) :
+        if self.gugudan.checkAnswer(self.ipt):
             self.gugudan = RandomNumber()
             self.score.correct()
             self.gugudan.updateScore()
