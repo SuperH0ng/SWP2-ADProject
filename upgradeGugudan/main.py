@@ -109,19 +109,16 @@ class Gugudan(QWidget) :
         self.onGame = True
 
         #초기 점수
-        self.priScore = 0
+        self.score = 0
 
         #초기 남은 시간 설정
-        self.time = 60.1
+        self.time = 5.1
 
         # #피연산자
         # self.operand1 = 0
         # self.operand2 = 0
-
-        self.score = Score(0)
+        self.gameScore = Score()
         self.newQuiz()
-
-        
 
     #새로운 구구단 생성
     def newQuiz(self) :
@@ -154,17 +151,18 @@ class Gugudan(QWidget) :
 
     #정답 제출
     def submit(self) :
+        
         # self.close()
         self.ipt = self.enterResult.text()
         self.enterResult.clear()
         self.enterResult.setText("")
-
-        if self.gugudan.checkAnswer(int(self.ipt)):
-            self.score.correct()
-            self.updateScore()
-            self.newQuiz()
-        else :
-            pass
+        if self.onGame :
+            if self.gugudan.checkAnswer(int(self.ipt)):
+                self.score = self.gameScore.correct(self.score)
+                self.updateScore()
+                self.newQuiz()
+            else :
+                pass
     
     #잠시 대기
     def pause(self) :

@@ -1,7 +1,10 @@
 class Score :
-    def __init__(self, score):
-        self.presentScore = score
+    def __init__(self):
+        self.presentScore = 0
     
-    def correct(self) :
-        self.presentScore += 1
+    # def presentScore(self) :
+    #     return self.presentScore
+
+    def correct(self, score) :
+        return score + 1
         # return score + 1
