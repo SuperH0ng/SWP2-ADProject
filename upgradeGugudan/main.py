@@ -69,9 +69,7 @@ class Gugudan(QWidget) :
         #BEST SCORE text layout
         self.bestScore = QLabel("최고 점수")
         self.bestScoreFont = self.bestScore.font()
-        # self.bestScoreFont.setPointSize = 40
         self.bestScore.setFont(QFont("명조", 20))
-        # self.bestScore.setFont(self.bestScoreFont)
         self.bestScore.setStyleSheet("Color : blue")
 
 
@@ -81,16 +79,11 @@ class Gugudan(QWidget) :
         self.scores.setReadOnly(True)
         self.scores.setAlignment(Qt.AlignLeft)
         self.scores.setFont(QFont("명조", 23))
-        # self.scores.setFont(self.bestScoreFont)
-
-        # self.scores
 
         #스코어보드
         scoreBoardLayout = QGridLayout()
         scoreBoardLayout.addWidget(self.bestScore, 0, 0)
         scoreBoardLayout.addWidget(self.scores, 1, 0)
-
-        # scoreBoardLayout = QGridLayout()
 
         #메인보드
         mainLayout = QGridLayout()
@@ -149,17 +142,16 @@ class Gugudan(QWidget) :
             self.leftTime.setText(f"남은 시간 : {self.time}")
             
 
-    #버튼 입력 (enter, spacebar)
+    #버튼 입력 (enter, escape)
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Return:
             self.submit()
-        elif e.key() == Qt.Key_Space:
+        elif e.key() == Qt.Key_Escape:
             self.pause()
 
     #정답 제출
     def submit(self) :
-        
-        # self.close()
+
         self.ipt = self.enterResult.text()
         self.enterResult.clear()
         self.enterResult.setText("")
@@ -174,8 +166,10 @@ class Gugudan(QWidget) :
     #잠시 대기
     def pause(self) :
         if self.gameStop :
+            self.enterResult.setReadOnly(False)
             self.gameStop = False
         else :
+            self.enterResult.setReadOnly(True)
             self.gameStop = True
 
     #게임 종료
@@ -197,6 +191,6 @@ class Gugudan(QWidget) :
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
     game = Gugudan()
-    game.setGeometry(300,300, 300,500)
+    # game.setGeometry(300,300, 300,500)
     game.show()
     sys.exit(app.exec_())
