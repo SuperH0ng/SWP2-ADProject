@@ -1,27 +1,26 @@
-# # scoreList = [4,3,2,1,0]
+class ScoreBoard :
+    def __init__(self):
+        self.numList = []
+        with open("scoreBoard.txt", "r") as f :
+            while True:
+                c = f.readline()
+                if c == '':
+                    break
+                c = c[:len(c)-1]
+                self.numList.append(int(c))
+    
+    def updateBestScore(self, num) :
+        self.numList.append(num)
+        self.numList = sorted(self.numList, reverse=True)[:5]
+        self.numList = list(map(lambda x : f"{x}\n", (n for n in self.numList)))
 
-# # def updateScoreBoard(score) :
-# #     scoreList.append(score)
-# #     scoreList = scoreList
+        with open("scoreBoard.txt", "w") as f :
+            
+            f.writelines(self.numList)
 
-# class ScoreBoard :
-#     def __init__(self) :
-        
-f = open("scoreBoard.txt", "w+")
+        # print(self.numList)
 
-numList = [10]
-
-while True:
-    c = f.readline()
-    if c == '':
-        break
-    c = c[:len(c)-1]
-    numList.append(int(c))
-
-numList = sorted(numList, reverse=True)[:5]
-numList = list(map(lambda x : f"{x}\n", (n for n in numList)))
-
-f.writelines(numList)
-f.close()
-
-print(numList)
+    def resetScoreBoard(self) :
+        with open("scoreBoard.txt", "w") as f :
+            
+            f.writelines(["\n"])

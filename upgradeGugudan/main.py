@@ -7,6 +7,7 @@ from PyQt5.QtGui import QFont
 
 from randomNumber import RandomNumber
 from score import Score
+from scoreBoard import updateBestScore
 
 class Gugudan(QWidget) :
 
@@ -44,7 +45,7 @@ class Gugudan(QWidget) :
         self.resultText = QLabel("정답 : ")
         self.resultText.setFont(QFont("명조", 20))
         #정답 입력창 layout
-        self.enterResult = QLineEdit("1")
+        self.enterResult = QLineEdit("")
         self.enterResult.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.enterResult.setMaxLength(2)
         self.enterResult.setFont(QFont("명조", 20))
@@ -52,7 +53,8 @@ class Gugudan(QWidget) :
         self.newGameButton = QToolButton()
         self.newGameButton.setText('새 게임')
         self.newGameButton.clicked.connect(self.startGame)
-
+        self.newGameButton.setFont(QFont("명조", 15))
+        self.newGameButton.setFixedSize(80, 40)
 
         #게임창
         gugudanLayout = QGridLayout()
