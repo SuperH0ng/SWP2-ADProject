@@ -14,8 +14,6 @@ class Gugudan(QWidget) :
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        
-
         #현재 점수 layout
         self.currentScore = QLabel(f"점수 : 0")
         self.currentScore.setFont(QFont("명조", 15))
@@ -156,18 +154,18 @@ class Gugudan(QWidget) :
 
     #정답 제출
     def submit(self) :
-
-        self.ipt = self.enterResult.text()
-        self.enterResult.clear()
-        self.enterResult.setText("")
-        if self.onGame :
-            try :
-                if self.gugudan.checkAnswer(int(self.ipt)):
-                    self.score = self.gameScore.correct(self.score)
-                    self.updateScore()
-                    self.newQuiz()
-            except :
-                pass
+        if not self.gameStop :
+            self.ipt = self.enterResult.text()
+            self.enterResult.clear()
+            self.enterResult.setText("")
+            if self.onGame :
+                try :
+                    if self.gugudan.checkAnswer(int(self.ipt)):
+                        self.score = self.gameScore.correct(self.score)
+                        self.updateScore()
+                        self.newQuiz()
+                except :
+                    pass
     #잠시 대기
     def pause(self) :
         if self.gameStop :
@@ -179,6 +177,8 @@ class Gugudan(QWidget) :
 
     #게임 종료
     def gameOver(self) :
+        self.enterResult.setReadOnly(True)
+        self.enterResult.clear()
         self.bestScores.updateBestScore(int(self.currentScore.text()[5:]))
         self.updateScoreBoard()
 
