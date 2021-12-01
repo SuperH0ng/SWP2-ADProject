@@ -1,5 +1,4 @@
 import sys
-import time
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget
 from PyQt5.QtWidgets import QLayout, QGridLayout, QSizePolicy
@@ -8,7 +7,6 @@ from PyQt5.QtGui import QFont
 
 from randomNumber import RandomNumber
 from score import Score
-
 
 class Gugudan(QWidget) :
 
@@ -34,6 +32,8 @@ class Gugudan(QWidget) :
         self.gugudanQuiz = QLineEdit(f"숫자 X num")
         self.gugudanQuiz.setReadOnly(True)
         self.gugudanQuiz.setAlignment(Qt.AlignCenter)
+        #사이즈 픽셀로 설정
+        self.gugudanQuiz.setFixedSize(280, 130)
         self.gugudanQuiz.setFont(QFont("명조", 20))
         # self.gugudanQuiz.setSizePolicy(0, QSizePolicy.Expanding)
         # font = self.gugudanQuiz.font()
@@ -112,11 +112,8 @@ class Gugudan(QWidget) :
         self.score = 0
 
         #초기 남은 시간 설정
-        self.time = 5.1
+        self.time = 60.1
 
-        # #피연산자
-        # self.operand1 = 0
-        # self.operand2 = 0
         self.gameScore = Score()
         self.newQuiz()
 
@@ -167,8 +164,6 @@ class Gugudan(QWidget) :
     #잠시 대기
     def pause(self) :
         self.close()
-        # self.enterResult.setText("")
-        # pass
 
     def gameOver(self) :
         pass
