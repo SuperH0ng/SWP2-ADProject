@@ -23,7 +23,7 @@ class Gugudan(QWidget) :
         # self.currentScore.setReadOnly(True)
 
         #남은 시간 layout
-        self.timeLimit = 30
+        self.timeLimit = 5
         self.leftTime = QLabel(f"남은 시간 : {self.timeLimit}")
         self.leftTime.setFont(QFont("명조", 15))
         # self.leftTime.setStyleSheet("Color : green")
@@ -117,9 +117,11 @@ class Gugudan(QWidget) :
 
         #초기 점수
         self.score = 0
+        self.updateScore()
 
         #초기 남은 시간 설정
         self.time = self.timeLimit + 0.1
+        self.updateTime()
 
         self.gameScore = Score()
         self.newQuiz()
