@@ -69,14 +69,19 @@ class Gugudan(QWidget) :
         #BEST SCORE text layout
         self.bestScore = QLabel("최고 점수")
         self.bestScoreFont = self.bestScore.font()
-        self.bestScoreFont.setPointSize = 20
-        self.bestScore.setFont(self.bestScoreFont)
+        # self.bestScoreFont.setPointSize = 40
+        self.bestScore.setFont(QFont("명조", 20))
+        # self.bestScore.setFont(self.bestScoreFont)
+        self.bestScore.setStyleSheet("Color : blue")
 
 
         #점수 목록 layout
         self.scores = QTextEdit("")
+        self.scores.setFixedSize(200, 190)
         self.scores.setReadOnly(True)
         self.scores.setAlignment(Qt.AlignLeft)
+        self.scores.setFont(QFont("명조", 23))
+        # self.scores.setFont(self.bestScoreFont)
 
         # self.scores
 
