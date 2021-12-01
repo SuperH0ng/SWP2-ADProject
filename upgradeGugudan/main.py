@@ -23,7 +23,7 @@ class Gugudan(QWidget) :
         # self.currentScore.setReadOnly(True)
 
         #남은 시간 layout
-        self.leftTime = QLabel(f"남은 시간 : 60")
+        self.leftTime = QLabel(f"남은 시간 : 30")
         self.leftTime.setFont(QFont("명조", 15))
         # self.leftTime.setStyleSheet("Color : green")
         # self.leftTime.setReadOnly(True)
@@ -36,10 +36,6 @@ class Gugudan(QWidget) :
         #사이즈 픽셀로 설정
         self.gugudanQuiz.setFixedSize(280, 130)
         self.gugudanQuiz.setFont(QFont("명조", 20))
-        # self.gugudanQuiz.setSizePolicy(0, QSizePolicy.Expanding)
-        # font = self.gugudanQuiz.font()
-        # font.setFamily('Courier New')
-        # self.gugudanQuiz.setFont(font)
 
         #정답 :
         self.resultText = QLabel("정답 : ")
@@ -75,7 +71,7 @@ class Gugudan(QWidget) :
 
         #점수 목록 layout
         self.scores = QTextEdit("")
-        self.scores.setFixedSize(200, 190)
+        self.scores.setFixedSize(220, 190)
         self.scores.setReadOnly(True)
         self.scores.setAlignment(Qt.AlignLeft)
         self.scores.setFont(QFont("명조", 23))
@@ -116,7 +112,7 @@ class Gugudan(QWidget) :
         self.score = 0
 
         #초기 남은 시간 설정
-        self.time = 60.1
+        self.time = 30.1
 
         self.gameScore = Score()
         self.newQuiz()
@@ -156,13 +152,13 @@ class Gugudan(QWidget) :
         self.enterResult.clear()
         self.enterResult.setText("")
         if self.onGame :
-            if self.gugudan.checkAnswer(int(self.ipt)):
-                self.score = self.gameScore.correct(self.score)
-                self.updateScore()
-                self.newQuiz()
-            else :
+            try :
+                if self.gugudan.checkAnswer(int(self.ipt)):
+                    self.score = self.gameScore.correct(self.score)
+                    self.updateScore()
+                    self.newQuiz()
+            except :
                 pass
-    
     #잠시 대기
     def pause(self) :
         if self.gameStop :
@@ -187,7 +183,6 @@ class Gugudan(QWidget) :
                 x += f"{i+1}등\t {self.bestScores.numList[i]}점"
         self.scores.setText(x)
     
-
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
     game = Gugudan()
