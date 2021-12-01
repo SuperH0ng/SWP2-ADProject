@@ -23,7 +23,8 @@ class Gugudan(QWidget) :
         # self.currentScore.setReadOnly(True)
 
         #남은 시간 layout
-        self.leftTime = QLabel(f"남은 시간 : 30")
+        self.timeLimit = 30
+        self.leftTime = QLabel(f"남은 시간 : {self.timeLimit}")
         self.leftTime.setFont(QFont("명조", 15))
         # self.leftTime.setStyleSheet("Color : green")
         # self.leftTime.setReadOnly(True)
@@ -68,6 +69,12 @@ class Gugudan(QWidget) :
         self.bestScore.setFont(QFont("명조", 20))
         self.bestScore.setStyleSheet("Color : blue")
 
+        #scoreBoard 초기화 버튼
+        self.reset = QToolButton()
+        self.reset.setText('새 게임')
+        self.reset.clicked.connect(self.startGame)
+        self.reset.setFont(QFont("명조", 15))
+        self.reset.setFixedSize(80, 40)
 
         #점수 목록 layout
         self.scores = QTextEdit("")
@@ -112,7 +119,7 @@ class Gugudan(QWidget) :
         self.score = 0
 
         #초기 남은 시간 설정
-        self.time = 30.1
+        self.time = self.timeLimit + 0.1
 
         self.gameScore = Score()
         self.newQuiz()
@@ -176,7 +183,7 @@ class Gugudan(QWidget) :
     #스코어보드
     def updateScoreBoard(self) :
         x = ""
-        for i in range(5) :
+        for i in range(len(self.bestScores.numList)) :
             if i != 4 :
                 x += f"{i+1}등\t {self.bestScores.numList[i]}점\n"
             else :
