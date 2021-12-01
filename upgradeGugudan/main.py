@@ -7,7 +7,7 @@ from PyQt5.QtGui import QFont
 
 from randomNumber import RandomNumber
 from score import Score
-from scoreBoard import updateBestScore
+from scoreBoard import ScoreBoard
 
 class Gugudan(QWidget) :
 
@@ -101,10 +101,14 @@ class Gugudan(QWidget) :
         self.timer.start(100)
         self.timer.timeout.connect(self.updateTime)
 
-        # self.startGame()
+        #스코어보드
+        self.bestScores = ScoreBoard()
+        self.updateScoreBoard()
+
 
         #게임 상태
         self.onGame = False
+        self.gameStop = False
 
     #게임 시작
     def startGame(self):
@@ -131,7 +135,8 @@ class Gugudan(QWidget) :
 
     #남은 시간 갱신
     def updateTime(self) :
-        if self.onGame :
+        #게임이 진행 중이고, pause를 누르지 않았을 때
+        if self.onGame and not self.gameStop:
             self.time = round(self.time - 0.1, 1)
             if self.time == 0 :
                 self.onGame = False
@@ -143,10 +148,8 @@ class Gugudan(QWidget) :
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Return:
             self.submit()
-        # elif e.key() == Qt.Key_Space:
-        #     self.pause()
-        # elif e.key() == Qt.Key_N:
-        #     self.showNormal()
+        elif e.key() == Qt.Key_Space:
+            self.pause()
 
     #정답 제출
     def submit(self) :
@@ -165,12 +168,26 @@ class Gugudan(QWidget) :
     
     #잠시 대기
     def pause(self) :
-        self.close()
+        if self.gameStop :
+            self.gameStop = False
+        else :
+            self.gameStop = True
 
+    #게임 종료
     def gameOver(self) :
-        pass
-            
-            
+        self.bestScores.updateBestScore(int(self.currentScore.text()[5:]))
+        self.updateScoreBoard()
+
+    #스코어보드
+    def updateScoreBoard(self) :
+        x = ""
+        for i in range(5) :
+            if i != 4 :
+                x += f"{i+1}등\t {self.bestScores.numList[i]}점\n"
+            else :
+                x += f"{i+1}등\t {self.bestScores.numList[i]}점"
+        self.scores.setText(x)
+    
 
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
