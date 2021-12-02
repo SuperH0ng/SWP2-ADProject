@@ -125,7 +125,7 @@ class Gugudan(QWidget) :
     #새로운 구구단 생성
     def newQuiz(self) :
         self.gugudan = RandomNumber()
-        self.gugudanQuiz.setText(f"{self.gugudan.operands()[0]} X {self.gugudan.operands()[1]}")
+        self.gugudanQuiz.setText(f"{self.gugudan.operands()[0]} × {self.gugudan.operands()[1]}")
 
     #점수 갱신
     def updateScore(self) :
