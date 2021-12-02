@@ -39,6 +39,7 @@ class Gugudan(QWidget) :
         self.enterResult.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.enterResult.setMaxLength(2)
         self.enterResult.setFont(QFont("명조", 20))
+        
 
         #새 게임
         self.newGameButton = QToolButton()
@@ -107,6 +108,9 @@ class Gugudan(QWidget) :
         self.onGame = True
         self.gameStop = False
         self.enterResult.setReadOnly(False)
+
+        #정답 입력창으로 포커스 자동 이동
+        self.enterResult.setFocus()
 
         #초기 점수
         self.score = 0
