@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
 from PyQt5.QtGui import QFont
 
 from randomNumber import RandomNumber
-from score import Score
 from scoreBoard import ScoreBoard
 
 class Gugudan(QWidget) :
@@ -19,12 +18,12 @@ class Gugudan(QWidget) :
         self.currentScore.setFont(QFont("명조", 15))
 
         #남은 시간 layout
-        self.timeLimit = 5
+        self.timeLimit = 15
         self.leftTime = QLabel(f"남은 시간 : {self.timeLimit}")
         self.leftTime.setFont(QFont("명조", 15))
 
         #구구단 문제 layout
-        self.gugudanQuiz = QLineEdit(f"업그레이드 구구단")
+        self.gugudanQuiz = QLineEdit(f"업그레이드 구구단,,")
         self.gugudanQuiz.setReadOnly(True)
         self.gugudanQuiz.setAlignment(Qt.AlignCenter)
         #사이즈 픽셀로 설정
@@ -88,7 +87,7 @@ class Gugudan(QWidget) :
         mainLayout.addLayout(scoreBoardLayout, 0, 1)
         
         self.setLayout(mainLayout)
-        self.setWindowTitle('업그레이드 구구단')
+        self.setWindowTitle('업그레이드 구구단,,')
 
         #타이머
         self.timer = QTimer(self)
@@ -190,7 +189,6 @@ class Gugudan(QWidget) :
     def reset(self):
         self.bestScores = ScoreBoard()
         self.bestScores.resetScoreBoard()
-        # self.bestScores.numList = []
         self.updateScoreBoard()
 
 if __name__ == '__main__' :
