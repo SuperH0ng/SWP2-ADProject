@@ -117,7 +117,6 @@ class Gugudan(QWidget) :
         self.time = self.timeLimit + 0.1
         self.updateTime()
 
-        self.gameScore = Score()
         self.newQuiz()
 
     #새로운 구구단 생성
@@ -155,7 +154,7 @@ class Gugudan(QWidget) :
             if self.onGame :
                 try :
                     if self.gugudan.checkAnswer(int(self.ipt)):
-                        self.score = self.gameScore.correct(self.score)
+                        self.score += 1
                         self.updateScore()
                         self.newQuiz()
                 except :
