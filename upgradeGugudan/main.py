@@ -17,16 +17,11 @@ class Gugudan(QWidget) :
         #현재 점수 layout
         self.currentScore = QLabel(f"점수 : 0")
         self.currentScore.setFont(QFont("명조", 15))
-        # self.currentScore.setStyleSheet("Color : rgb(255,255,255) ")
-        # self.currentScore.setReadOnly(True)
 
         #남은 시간 layout
         self.timeLimit = 5
         self.leftTime = QLabel(f"남은 시간 : {self.timeLimit}")
         self.leftTime.setFont(QFont("명조", 15))
-        # self.leftTime.setStyleSheet("Color : green")
-        # self.leftTime.setReadOnly(True)
-
 
         #구구단 문제 layout
         self.gugudanQuiz = QLineEdit(f"업그레이드 구구단")
@@ -71,9 +66,7 @@ class Gugudan(QWidget) :
         #scoreBoard 초기화 버튼
         self.resetBtn = QToolButton()
         self.resetBtn.setText('ScoreBoard\n 초기화')
-        # self.resetBtn.clicked.connect(self.reset())
-        # self.resetBtn.setFont(QFont("명조", 15))
-        # self.resetBtn.setFixedSize(80, 40)
+        self.resetBtn.clicked.connect(self.reset)
 
         #점수 목록 layout
         self.scores = QTextEdit("")
@@ -106,8 +99,6 @@ class Gugudan(QWidget) :
         self.bestScores = ScoreBoard()
         self.updateScoreBoard()
 
-        self.resetBtn.clicked.connect(self.reset)
-
         #게임 상태
         self.onGame = False
         self.gameStop = False
@@ -115,6 +106,7 @@ class Gugudan(QWidget) :
     #게임 시작
     def startGame(self):
         self.onGame = True
+        self.gameStop = False
         self.enterResult.setReadOnly(False)
 
         #초기 점수
@@ -137,7 +129,6 @@ class Gugudan(QWidget) :
     def updateScore(self) :
         self.currentScore.setText(f"점수 : {self.score}")
         
-
     #남은 시간 갱신
     def updateTime(self) :
         #게임이 진행 중이고, pause를 누르지 않았을 때
@@ -148,7 +139,6 @@ class Gugudan(QWidget) :
                 self.gameOver()
             self.leftTime.setText(f"남은 시간 : {self.time}")
             
-
     #버튼 입력 (enter, escape)
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Return:
@@ -170,6 +160,7 @@ class Gugudan(QWidget) :
                         self.newQuiz()
                 except :
                     pass
+
     #잠시 대기
     def pause(self) :
         if self.gameStop :

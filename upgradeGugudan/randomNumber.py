@@ -8,16 +8,18 @@ import random
 class RandomNumber :
 
     def __init__(self) :
+        #랜덤 피연산자 생성
         self.operand1 = random.randint(1,9)
         self.operand2 = random.randint(1,9)
+        self.answerNum = self.operand1 * self.operand2
 
+        #랜덤 피연산자 타입 
         self.operand1Type = random.randint(0,5)
         self.operand2Type = random.randint(0,5)
-
-        self.answerNum = self.operand1 * self.operand2
 
     def operands(self) :
         return [numberDic[self.operand1][self.operand1Type], numberDic[self.operand2][self.operand2Type]]
 
+    #
     def checkAnswer(self, num) : 
         return self.answerNum == num
