@@ -24,4 +24,4 @@ class ScoreBoard :
     def resetScoreBoard(self) :
         with open("scoreBoard.txt", "w") as f :
             
-            f.writelines(["\n"])
+            f.writelines([""])

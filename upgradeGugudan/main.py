@@ -29,7 +29,7 @@ class Gugudan(QWidget) :
 
 
         #구구단 문제 layout
-        self.gugudanQuiz = QLineEdit(f"숫자 X num")
+        self.gugudanQuiz = QLineEdit(f"업그레이드 구구단")
         self.gugudanQuiz.setReadOnly(True)
         self.gugudanQuiz.setAlignment(Qt.AlignCenter)
         #사이즈 픽셀로 설정
@@ -39,11 +39,13 @@ class Gugudan(QWidget) :
         #정답 :
         self.resultText = QLabel("정답 : ")
         self.resultText.setFont(QFont("명조", 20))
+
         #정답 입력창 layout
         self.enterResult = QLineEdit("")
         self.enterResult.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.enterResult.setMaxLength(2)
         self.enterResult.setFont(QFont("명조", 20))
+
         #새 게임
         self.newGameButton = QToolButton()
         self.newGameButton.setText('새 게임')
@@ -59,7 +61,6 @@ class Gugudan(QWidget) :
         gugudanLayout.addWidget(self.resultText, 4, 0)
         gugudanLayout.addWidget(self.enterResult, 4, 1)
         gugudanLayout.addWidget(self.newGameButton, 4, 2, alignment=Qt.AlignRight)
-
         
         #BEST SCORE text layout
         self.bestScore = QLabel("최고 점수")
@@ -68,11 +69,11 @@ class Gugudan(QWidget) :
         self.bestScore.setStyleSheet("Color : blue")
 
         #scoreBoard 초기화 버튼
-        self.reset = QToolButton()
-        self.reset.setText('새 게임')
-        self.reset.clicked.connect(self.startGame)
-        self.reset.setFont(QFont("명조", 15))
-        self.reset.setFixedSize(80, 40)
+        self.resetBtn = QToolButton()
+        self.resetBtn.setText('ScoreBoard\n 초기화')
+        # self.resetBtn.clicked.connect(self.reset())
+        # self.resetBtn.setFont(QFont("명조", 15))
+        # self.resetBtn.setFixedSize(80, 40)
 
         #점수 목록 layout
         self.scores = QTextEdit("")
@@ -84,7 +85,8 @@ class Gugudan(QWidget) :
         #스코어보드
         scoreBoardLayout = QGridLayout()
         scoreBoardLayout.addWidget(self.bestScore, 0, 0)
-        scoreBoardLayout.addWidget(self.scores, 1, 0)
+        scoreBoardLayout.addWidget(self.scores, 1, 0, 2, 0)
+        scoreBoardLayout.addWidget(self.resetBtn, 0, 1)
 
         #메인보드
         mainLayout = QGridLayout()
@@ -104,6 +106,7 @@ class Gugudan(QWidget) :
         self.bestScores = ScoreBoard()
         self.updateScoreBoard()
 
+        self.resetBtn.clicked.connect(self.reset)
 
         #게임 상태
         self.onGame = False
@@ -112,6 +115,7 @@ class Gugudan(QWidget) :
     #게임 시작
     def startGame(self):
         self.onGame = True
+        self.enterResult.setReadOnly(False)
 
         #초기 점수
         self.score = 0
@@ -182,7 +186,7 @@ class Gugudan(QWidget) :
         self.bestScores.updateBestScore(int(self.currentScore.text()[5:]))
         self.updateScoreBoard()
 
-    #스코어보드
+    #스코어보드 갱신
     def updateScoreBoard(self) :
         x = ""
         for i in range(len(self.bestScores.numList)) :
@@ -191,7 +195,14 @@ class Gugudan(QWidget) :
             else :
                 x += f"{i+1}등\t {self.bestScores.numList[i]}점"
         self.scores.setText(x)
-    
+
+    #점수 초기화
+    def reset(self):
+        self.bestScores = ScoreBoard()
+        self.bestScores.resetScoreBoard()
+        # self.bestScores.numList = []
+        self.updateScoreBoard()
+
 if __name__ == '__main__' :
     app = QApplication(sys.argv)
     game = Gugudan()
